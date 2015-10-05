@@ -3,14 +3,12 @@
 #include <SdFatUtil.h>
 #include <SFEMP3Shield.h>
 
-
 SdFat sd;
 SFEMP3Shield MP3player;
 int resultado;
 
 void setup() {
   //Serial.begin(115200);
-
   if(!sd.begin(SD_SEL, SPI_HALF_SPEED)) sd.initErrorHalt();
   if(!sd.chdir("/")) sd.errorHalt("sd.chdir");  
   resultado = MP3player.begin();
@@ -29,7 +27,7 @@ void setup() {
 void loop() {
   MP3player.setBitRate(192);
   MP3player.setVolume(10,10);
-  MP3player.playTrack(1);
+  MP3player.playTrack(1); //escolhe o nome da música
 
   delay(100);
 }
