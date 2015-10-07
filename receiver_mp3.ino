@@ -1,5 +1,3 @@
-//Código com bug
-
 #include <VirtualWire.h>
 #include <SPI.h>
 #include <SdFat.h>
@@ -9,26 +7,19 @@
 SdFat sd;
 SFEMP3Shield MP3player;
 const int led = 12;
-int resultado;
+uint8_t resultado;
 
 void setup() {
   //Serial.begin(115200);
-  vw_set_ptt_inverted(true); 
+  vw_set_ptt_inverted(true);
   vw_set_rx_pin(13);
-  vw_setup(1000); 
+  vw_setup(1000);
   pinMode(led, OUTPUT);
-  vw_rx_start(); 
+  vw_rx_start();
 
   if(!sd.begin(SD_SEL, SPI_HALF_SPEED)) sd.initErrorHalt();
-  if(!sd.chdir("/")) sd.errorHalt("sd.chdir");  
+  if(!sd.chdir("/")) sd.errorHalt("sd.chdir");
 
-}
-
-void tocar() {
-  resultado = MP3player.begin();
-  MP3player.setBitRate(192);
-  MP3player.setVolume(10,10);
-  MP3player.playTrack(1);
 }
 
 void loop() {
@@ -37,14 +28,21 @@ void loop() {
 
    if (vw_get_message(buf, &buflen)) {
     if(buf[0]=='1') {
-      tocar();	
+      tocar();
       digitalWrite(led, HIGH);
-    } 
-         
+    }
+
     if(buf[0]=='0'){
       digitalWrite(led,LOW);
     }
   }
 
   delay(100);
+}
+
+void tocar() {
+  resultado = MP3player.begin();
+  MP3player.setBitRate(192);
+  MP3player.setVolume(10,10);
+  MP3player.playTrack(1);
 }
