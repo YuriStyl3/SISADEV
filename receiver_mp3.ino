@@ -19,6 +19,10 @@ void setup() {
 
   if(!sd.begin(SD_SEL, SPI_HALF_SPEED)) sd.initErrorHalt();
   if(!sd.chdir("/")) sd.errorHalt("sd.chdir");
+  
+  resultado = MP3player.begin();
+  MP3player.setBitRate(192);
+  MP3player.setVolume(10,10);
 
 }
 
@@ -41,8 +45,5 @@ void loop() {
 }
 
 void tocar() {
-  resultado = MP3player.begin();
-  MP3player.setBitRate(192);
-  MP3player.setVolume(10,10);
   MP3player.playTrack(1);
 }
