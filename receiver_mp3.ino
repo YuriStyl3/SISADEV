@@ -48,6 +48,5 @@ void ativar_mp3() {
   MP3player.begin(); //inicializa o mp3 shield
   MP3player.setBitRate(192);
   MP3player.setVolume(10,10); //ajusta o volume
-  MP3player.playTrack(1); /*seleciona o toque mp3, que aqui, no caso, será 1 para
-  fins de teste*/
+  MP3player.playTrack(1); /*seleciona o toque mp3, que aqui, no caso, será 1 apenas para testes*/
 }
