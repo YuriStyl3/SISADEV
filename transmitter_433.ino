@@ -4,7 +4,7 @@
 const int ledPin = 13;
 char Valor_CharMsg[4]; 
 //Armazena estado led = ligar/desligar
-int estado = 0;
+int estado = 1;
 
 void setup() {
   Serial.begin(9600);   
@@ -12,12 +12,10 @@ void setup() {
   //Pino ligado ao pino DATA do transmissor RF
   vw_set_tx_pin(4);
   //Velocidade de comunicacao (bits por segundo)
-  vw_setup(5000);
+  vw_setup(1000);
 }
 
 void loop() {
-  //Altera o estado do led
-  estado = !estado;
   //Converte valor para envio
   itoa(estado,Valor_CharMsg,10);
   //Liga o led da porta 13 para indicar envio dos dados
@@ -30,5 +28,5 @@ void loop() {
   digitalWrite(13, false);
   Serial.print("Valor enviado: ");
   Serial.println(Valor_CharMsg);
-  delay(500);
+  delay(2000);
 }
