@@ -6,6 +6,7 @@
 
 //Define pino led
 int ledPin = 5;
+int led = 13;
 //variável para o cartão de memória
 SdFat sd; 
 SFEMP3Shield MP3player;
@@ -16,6 +17,7 @@ char recebido_RF_char[4];
 void setup() {
   Serial.begin(9600);
   pinMode(ledPin, OUTPUT);
+  pinMode(led, OUTPUT);
   //Pino ligado ao pino DATA do receptor RF
   vw_set_rx_pin(7);
   //Velocidade de comunicacao (bits por segundo)
@@ -47,6 +49,7 @@ void loop() {
     //Altera o estado do led conforme o numero recebido
     if (valor_recebido_RF == 1) {
       digitalWrite(ledPin, HIGH);
+      digitalWrite(led, HIGH);
       ativar_mp3();
       //Serial.println(" - Led aceso !");
     }
