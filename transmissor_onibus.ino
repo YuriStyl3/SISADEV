@@ -1,32 +1,26 @@
 #include <VirtualWire.h>
 
-//Define pinos Led
 const int ledPin = 13;
 char Valor_CharMsg[4]; 
-//Armazena estado led = ligar/desligar
-int estado = 1;
+int estado = 1; //Armazena estado led = ligar/desligar
 
 void setup() {
   Serial.begin(9600);   
   pinMode(ledPin,OUTPUT);
-  //Pino ligado ao pino DATA do transmissor RF
-  vw_set_tx_pin(4);
-  //Velocidade de comunicacao (bits por segundo)
-  vw_setup(1000);
+  vw_set_tx_pin(4); //Pino ligado ao pino DATA do transmissor RF
+  vw_setup(1000);   //Velocidade de comunicacao (bits por segundo)
 }
 
 void loop() {
-  //Converte valor para envio
-  itoa(estado,Valor_CharMsg,10);
-  //Liga o led da porta 13 para indicar envio dos dados
-  digitalWrite(13, true);
-  //Envio dos dados
-  vw_send((uint8_t *)Valor_CharMsg, strlen(Valor_CharMsg));
-  //Aguarda envio dos dados
-  vw_wait_tx();
-  //Desliga o led da porta 13 ao final da transmissao
-  digitalWrite(13, false);
+  itoa(estado,Valor_CharMsg,10); //Converte valor para envio
+  digitalWrite(13, true); //Liga o led da porta 13 para indicar envio dos dados
+  
+  vw_send((uint8_t *)Valor_CharMsg, strlen(Valor_CharMsg)); //transmite o dado 
+  vw_wait_tx(); //Aguarda envio do dado
+  
+  digitalWrite(13, false); //Desliga o led da porta 13 ao final da transmissao
   Serial.print("Valor enviado: ");
   Serial.println(Valor_CharMsg);
+  
   delay(2000);
 }
