@@ -2,7 +2,7 @@
 
 const int ledPin = 13;
 char Valor_CharMsg[4]; 
-int estado = 1; //Armazena estado led = ligar/desligar
+int linha = 1; //Dado a ser enviado
 
 void setup() {
   Serial.begin(9600);   
@@ -12,7 +12,7 @@ void setup() {
 }
 
 void loop() {
-  itoa(estado,Valor_CharMsg,10); //Converte valor para envio
+  itoa(linha,Valor_CharMsg,10); //Converte valor para envio
   digitalWrite(13, true); //Liga o led da porta 13 para indicar envio dos dados
   
   vw_send((uint8_t *)Valor_CharMsg, strlen(Valor_CharMsg)); //transmite o dado 
