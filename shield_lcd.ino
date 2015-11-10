@@ -1,113 +1,144 @@
-#define brilho 5; //Define o brilho
-#define contraste 9; //Define o contraste
+#include <LiquidCrystal.h>  
+  
+LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
-#include <Wire.h> 
-#include <LiquidCrystal_l2C.h>
-
-//Comunicação entre l2C com o display LCD
-LiquidCrystal_l2C lcd(32,16,2); //Inicia o endereço l2C, as colunas e linhas;
-
-int botoes; //Variável para leitura de botões
-int cont; //Contador
-
-float pwm_brilho = 255; //Controle de pwm do brilho
-float pwm_contraste = 0; //Controle de pwm do contraste
-float porcentagem_brilho; //Conversão do pwm do brilho em porcentagem
-float porcentagem_contraste //Conversão do pwm do contraste em porcentagem
-
+int menu_cont; //Variável para contagem dos menus
+int sel=0; //Variável para verificar estado do botão selecionar
+  
 void setup() {
-	Serial.begin(9600);
-
-	//Inicializar o LCD
-	lcd.init(); 
-	lcd.backlight();
-
-	pinMode(brilho, OUTPUT); //Configura o pino 5 como saída
-	pinMode(contraste, OUTPUT); //Configura o pino 9 como saída
-
-	inicializacao();
+	Serial.begin(9600);   
+	lcd.begin(16, 2);      
+}  
+  
+void loop() {  
+	int botoes;  
+ 	botoes = analogRead (0); //Leitura do valor da porta analógica A0
+	atualiza_menu();    
 }
 
-void loop() {
-	botoes = analogRead(A0); //Faz a leitura da porta A0 e armazena na variável
-	Serial.println(botoes); //Escreve o valor lido
-	delay(1000);
-	ajuste();
+void atualiza_menu() {
+	lcd.setCursor(8,1);
+
+	if(botoes > 100 && botoes < 200) { //Se botão da esquerda for pressionado 
+    	menu_cont--; //Volta para o MENU anterior
+  	
+  	} else if(botoes > 700 && botoes < 800) { //Senão se o botão da direita for pressionado
+    	menu_cont++;  //Vai para o próximo MENU
+  	
+  	} else if(botoes < 100) {
+   		sel = 1; //Valida que o botão de seleção foi pressionado
+  	}
+  	
+  	trata_botao(); //Chama a função para tratamento do botão para executar somente quando for clicado
+  	menu_list();
 }
 
-void inicializacao() { //Inicialização da tela LCD para a aplicação
-	analogWrite(brilho, 255);
-	analogWrite(contraste, 0);
+void menu_list() {
 
-	Serial.println("");
-	Serial.println("Shield LCD iniciado....");
+  if(menu_cont == 0) {
+  	lcd.setCursor(4,0);  
+	lcd.print("SISADEV");
+    lcd.setCursor(0,1); 
+    lcd.print("18 - Bairro Nordeste");
 
-	lcd.setCursor(0,0); //Posicionando o cursor na primeira coluna e na primeira linha
-	lcd.print("LCD Shield l2C"); //Escreve no LCD
-
-	for (cont = 0; cont <= 4; cont++) { //Laço para o efeito de piscagem
-		lcd.setCursor(0,1); //Posiciona o cursor na primeira coluna e segunda linha
-		lcd.print("                "); //Limpar segunda linha
-		delay(250);
-		lcd.setCursor(0,1); //Posiciona cursor
-		lcd.print("SISADEV");
-		delay(250);		
-	}
-}	
-
-void ajuste() {
-	if (botoes > 100 && botoes < 200) { //Se o botão da esquerda for pressionado
-		if (pwm_brilho > 0) { //Se o pwm do brilho for maior que 0
-			pwm_brilho -= 25.5; //Diminui em 10% no pwm do brilho 
-			analogWrite(brilho, pwm_brilho); //Atualiza o pwm do brilho
+    if(sel == 1) {//Se botão de seleção for pressionado
+    
+    	while(sel == 1) {//Enquanto o botão de selecionar não for pressionado denovo
+      
+	        botoes = analogRead(A0); //Lê os botões
+	        ajuste1(); //Vai para a função de ajuste do Brilho
+	        lcd.clear(); //Limpa LCD
+	        trata_botao2(); //Chama a função para tratamento do botão para executar somente quando for clicado
+	        
+	        if(botoes < 100) {//Se o botão de seleção for pressionado
+		    	sel = 0; //Sai do MENU
+		        trata_botao(); //Chama a função para tratamento do botão para executar somente quando for clicado
+        	}
 		}
-		
-		porcentagem_brilho = (pwm_brilho/255) * 100; //Armazena o valor do pwm em porcentagem 
-		Serial.print("Brilho = ");
-		Serial.print(porcentagem_brilho);
-		Serial.print("%");
-		trata_botao(); //Tratar botão para variar apenas 10% ao ser clicado
-	
-	} else if (botoes > 700 && botoes < 800) { //Se o botão da direita for pressionado
-		if (pwm_brilho < 255) { //Se o pwm do brilho for menor que 255
-			pwm_brilho += 25.5; //Aumenta em 10% no pwm do brilho 
-			analogWrite(brilho, pwm_brilho); 
+    }
+  
+  } else if(menu_cont == 1) {
+  	lcd.setCursor(4,0);  
+	lcd.print("SISADEV");
+    lcd.setCursor(0,1); 
+    lcd.print("77 - Parque dos Coqueiros");
+    
+    if(sel == 1) {//Se botão de seleção for pressionado
+    
+    	while(sel == 1) {//Enquanto o botão de selecionar não for pressionado denovo
+      
+	        botoes = analogRead(A0); //Lê os botões
+	        ajuste1(); //Vai para a função de ajuste do Brilho
+	        lcd.clear(); //Limpa LCD
+	        trata_botao2(); //Chama a função para tratamento do botão para executar somente quando for clicado
+	        
+	        if(botoes < 100) {//Se o botão de seleção for pressionado
+		    	sel = 0; //Sai do MENU
+		        trata_botao(); //Chama a função para tratamento do botão para executar somente quando for clicado
+        	}
 		}
-		
-		porcentagem_brilho = (pwm_brilho/255) * 100; 
-		Serial.print("Brilho = ");
-		Serial.print(porcentagem_brilho);
-		Serial.print("%");
-		trata_botao();
-	
-	} else if (botoes > 200 && botoes < 300) { //Se o botão de baixo for pressionado
-		if (pwm_contraste > 0) { //Se o pwm do brilho for menor que 255
-			pwm_contraste -= 25.5; //Diminui em 10% no pwm do contraste 
-			analogWrite(contraste, pwm_contraste); 
+    }
+  
+  } else if(menu_cont == 2) {//Menu 3: Tela de Ajuste do Contraste
+  	lcd.setCursor(4,0);  
+	lcd.print("SISADEV");
+    lcd.setCursor(0,1); 
+    lcd.print("64 - Nova Natal");
+    
+    if(sel == 1) {//Se botão de seleção for pressionado
+    
+    	while(sel == 1) {//Enquanto o botão de selecionar não for pressionado denovo
+      
+	        botoes = analogRead(A0); //Lê os botões
+	        ajuste1(); //Vai para a função de ajuste do Brilho
+	        lcd.clear(); //Limpa LCD
+	        trata_botao2(); //Chama a função para tratamento do botão para executar somente quando for clicado
+	        
+	        if(botoes < 100) {//Se o botão de seleção for pressionado
+		    	sel = 0; //Sai do MENU
+		        trata_botao(); //Chama a função para tratamento do botão para executar somente quando for clicado
+        	}
 		}
-		
-		porcentagem_contraste = (pwm_contraste/255) * 100; 
-		Serial.print("Contraste = ");
-		Serial.print(porcentagem_contraste);
-		Serial.print("%");
-		trata_botao();
-	
-	} else if (botoes > 400 && botoes < 500) { //Se o botão de baixo for pressionado
-		if (pwm_contraste < 255) { //Se o pwm do brilho for menor que 255
-			pwm_contraste += 25.5; //Aumenta em 10% no pwm do contraste 
-			analogWrite(contraste, pwm_contraste); 
+    }
+  }
+else if(menu_cont == 3) {//Menu 4: Tela de Estado do Relé
+    lcd.setCursor(4,0);  
+	lcd.print("SISADEV");
+    lcd.setCursor(0,1); 
+    lcd.print("85 - Soledade");
+    
+    if(sel == 1) {//Se botão de seleção for pressionado
+    
+    	while(sel == 1) {//Enquanto o botão de selecionar não for pressionado denovo
+      
+	        botoes = analogRead(A0); //Lê os botões
+	        ajuste1(); //Vai para a função de ajuste do Brilho
+	        lcd.clear(); //Limpa LCD
+	        trata_botao2(); //Chama a função para tratamento do botão para executar somente quando for clicado
+	        
+	        if(botoes < 100) {//Se o botão de seleção for pressionado
+		    	sel = 0; //Sai do MENU
+		        trata_botao(); //Chama a função para tratamento do botão para executar somente quando for clicado
+        	}
 		}
-		
-		porcentagem_contraste = (pwm_contraste/255) * 100; 
-		Serial.print("Contraste = ");
-		Serial.print(porcentagem_contraste);
-		Serial.print("%");
-		trata_botao();
-	}
+    }
+  
+  } else if(menu_cont == 4) {//Se a contagem de menu for para 4
+    menu_cont = 0; //Volta para o primeiro menu
+  
+  } else if(menu_cont == -1) {//Se a contagem de menu for para -1
+    menu_cont = 3; //Volta para o último menu
+  }
 }
 
 void trata_botao() {
-	while(botoes != 1023) {
-		botoes = analogRead(AO);
-	}
+  while(botoes != 1023) {//Enquanto o botão não for solto, fica preso no laço
+    botoes=analogRead(A0);
+  }
+}
+
+void trata_botao2() {
+  while(botoes > 900) {//Enquanto nenhum botão for pressionado, fica preso no laço
+    botoes=analogRead(A0);
+  }
 }
