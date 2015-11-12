@@ -4,123 +4,120 @@ LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
 int menu_cont; //Variável para contagem dos menus
 int sel=0; //Variável para verificar estado do botão selecionar
+int botoes;  
   
 void setup() {
-	Serial.begin(9600);   
-	lcd.begin(16, 2);      
+  Serial.begin(9600);   
+  lcd.begin(16, 2);      
 }  
   
 void loop() {  
-	int botoes;  
- 	botoes = analogRead (0); //Leitura do valor da porta analógica A0
-	atualiza_menu();    
+  botoes = analogRead (0); //Leitura do valor da porta analógica A0
+  atualiza_menu();    
 }
 
 void atualiza_menu() {
-	lcd.setCursor(8,1);
+  lcd.setCursor(8,1);
 
-	if(botoes > 100 && botoes < 200) { //Se botão da esquerda for pressionado 
-    	menu_cont--; //Volta para o MENU anterior
-  	
-  	} else if(botoes > 700 && botoes < 800) { //Senão se o botão da direita for pressionado
-    	menu_cont++;  //Vai para o próximo MENU
-  	
-  	} else if(botoes < 100) {
-   		sel = 1; //Valida que o botão de seleção foi pressionado
-  	}
-  	
-  	trata_botao(); //Chama a função para tratamento do botão para executar somente quando for clicado
-  	menu_list();
+  if(botoes < 100 || botoes < 400) { //Se botão da esquerda for pressionado 
+      lcd.clear();
+      menu_cont--; //Volta para o MENU anterior
+    
+    } else if(botoes < 200 || botoes < 600) { //Senão se o botão da direita for pressionado
+      lcd.clear();
+      menu_cont++;  //Vai para o próximo MENU
+    
+    } else if(botoes < 800) {
+      sel = 1; //Valida que o botão de seleção foi pressionado
+    }
+    
+    trata_botao(); //Chama a função para tratamento do botão para executar somente quando for clicado
+    menu_list();
 }
 
 void menu_list() {
 
   if(menu_cont == 0) {
-  	lcd.setCursor(4,0);  
-	lcd.print("SISADEV");
+    lcd.setCursor(4,0);  
+    lcd.print("SISADEV");
     lcd.setCursor(0,1); 
-    lcd.print("18 - Bairro Nordeste");
+    lcd.print("04 - Amarante");
 
     if(sel == 1) {//Se botão de seleção for pressionado
     
-    	while(sel == 1) {//Enquanto o botão de selecionar não for pressionado denovo
+      /*while(sel == 1) {//Enquanto o botão de selecionar não for pressionado denovo
       
-	        botoes = analogRead(A0); //Lê os botões
-	        ajuste1(); //Vai para a função de ajuste do Brilho
-	        lcd.clear(); //Limpa LCD
-	        trata_botao2(); //Chama a função para tratamento do botão para executar somente quando for clicado
-	        
-	        if(botoes < 100) {//Se o botão de seleção for pressionado
-		    	sel = 0; //Sai do MENU
-		        trata_botao(); //Chama a função para tratamento do botão para executar somente quando for clicado
-        	}
-		}
+          botoes = analogRead(A0); //Lê os botões
+          lcd.clear(); //Limpa LCD
+          trata_botao2(); //Chama a função para tratamento do botão para executar somente quando for clicado
+          
+          if(botoes < 100) {//Se o botão de seleção for pressionado
+          sel = 0; //Sai do MENU
+            trata_botao(); //Chama a função para tratamento do botão para executar somente quando for clicado
+          }
+    	}*/
     }
   
   } else if(menu_cont == 1) {
-  	lcd.setCursor(4,0);  
-	lcd.print("SISADEV");
+    lcd.setCursor(4,0);  
+  lcd.print("SISADEV");
     lcd.setCursor(0,1); 
-    lcd.print("77 - Parque dos Coqueiros");
+    lcd.print("08 - Redinha");
     
     if(sel == 1) {//Se botão de seleção for pressionado
     
-    	while(sel == 1) {//Enquanto o botão de selecionar não for pressionado denovo
+      /*while(sel == 1) {//Enquanto o botão de selecionar não for pressionado denovo
       
-	        botoes = analogRead(A0); //Lê os botões
-	        ajuste1(); //Vai para a função de ajuste do Brilho
-	        lcd.clear(); //Limpa LCD
-	        trata_botao2(); //Chama a função para tratamento do botão para executar somente quando for clicado
-	        
-	        if(botoes < 100) {//Se o botão de seleção for pressionado
-		    	sel = 0; //Sai do MENU
-		        trata_botao(); //Chama a função para tratamento do botão para executar somente quando for clicado
-        	}
-		}
+          botoes = analogRead(A0); //Lê os botões
+          lcd.clear(); //Limpa LCD
+          trata_botao2(); //Chama a função para tratamento do botão para executar somente quando for clicado
+          
+          if(botoes < 100) {//Se o botão de seleção for pressionado
+          sel = 0; //Sai do MENU
+            trata_botao(); //Chama a função para tratamento do botão para executar somente quando for clicado
+          }
+    }*/
     }
   
   } else if(menu_cont == 2) {//Menu 3: Tela de Ajuste do Contraste
-  	lcd.setCursor(4,0);  
-	lcd.print("SISADEV");
+    lcd.setCursor(4,0);  
+    lcd.print("SISADEV");
     lcd.setCursor(0,1); 
     lcd.print("64 - Nova Natal");
     
     if(sel == 1) {//Se botão de seleção for pressionado
     
-    	while(sel == 1) {//Enquanto o botão de selecionar não for pressionado denovo
+      /*while(sel == 1) {//Enquanto o botão de selecionar não for pressionado denovo
       
-	        botoes = analogRead(A0); //Lê os botões
-	        ajuste1(); //Vai para a função de ajuste do Brilho
-	        lcd.clear(); //Limpa LCD
-	        trata_botao2(); //Chama a função para tratamento do botão para executar somente quando for clicado
-	        
-	        if(botoes < 100) {//Se o botão de seleção for pressionado
-		    	sel = 0; //Sai do MENU
-		        trata_botao(); //Chama a função para tratamento do botão para executar somente quando for clicado
-        	}
-		}
+          botoes = analogRead(A0); //Lê os botões
+          lcd.clear(); //Limpa LCD
+          trata_botao2(); //Chama a função para tratamento do botão para executar somente quando for clicado
+          
+          if(botoes < 100) {//Se o botão de seleção for pressionado
+            sel = 0; //Sai do MENU
+            trata_botao(); //Chama a função para tratamento do botão para executar somente quando for clicado
+          }
+        }*/
     }
-  }
-else if(menu_cont == 3) {//Menu 4: Tela de Estado do Relé
+  } else if(menu_cont == 3) {//Menu 4: Tela de Estado do Relé
     lcd.setCursor(4,0);  
-	lcd.print("SISADEV");
+  lcd.print("SISADEV");
     lcd.setCursor(0,1); 
     lcd.print("85 - Soledade");
     
     if(sel == 1) {//Se botão de seleção for pressionado
     
-    	while(sel == 1) {//Enquanto o botão de selecionar não for pressionado denovo
+      /*while(sel == 1) {//Enquanto o botão de selecionar não for pressionado denovo
       
-	        botoes = analogRead(A0); //Lê os botões
-	        ajuste1(); //Vai para a função de ajuste do Brilho
-	        lcd.clear(); //Limpa LCD
-	        trata_botao2(); //Chama a função para tratamento do botão para executar somente quando for clicado
-	        
-	        if(botoes < 100) {//Se o botão de seleção for pressionado
-		    	sel = 0; //Sai do MENU
-		        trata_botao(); //Chama a função para tratamento do botão para executar somente quando for clicado
-        	}
-		}
+          botoes = analogRead(A0); //Lê os botões
+          lcd.clear(); //Limpa LCD
+          trata_botao2(); //Chama a função para tratamento do botão para executar somente quando for clicado
+          
+          if(botoes < 100) {//Se o botão de seleção for pressionado
+          sel = 0; //Sai do MENU
+            trata_botao(); //Chama a função para tratamento do botão para executar somente quando for clicado
+          }
+      }*/
     }
   
   } else if(menu_cont == 4) {//Se a contagem de menu for para 4
