@@ -14,11 +14,9 @@
 PP_TouchScreen ts = PP_TouchScreen(XP, YP, XM, YM, 100);
 
 #define BLACK           0x0000
-#define BLUE            0x001F
 #define RED             0xF800
 #define GREEN           0x07E0
 #define CYAN            0x07FF
-#define MAGENTA         0xF81F
 #define YELLOW          0xFFE0
 #define WHITE           0xFFFF
 
@@ -36,7 +34,7 @@ bool botao6 = 0;
 bool botao7 = 0;
 bool botao8 = 0;
 bool botao9 = 0;
-bool botao_enter = 0;
+bool botao_ok = 0;
 
 #define MINPRESSURE 10
 #define MAXPRESSURE 1000
@@ -115,7 +113,7 @@ void setup(void) {
   tft.println("0");
 
   tft.drawRoundRect(180, 185, 62, 50, 5, GREEN);
-  tft.setTextColor(GREEN);
+  tft.setTextColor(YELLOW);
   tft.setTextSize(4);
   tft.setCursor(190, 195);
   tft.println("OK");
@@ -142,7 +140,7 @@ void loop() {
       Serial.println(ponto.x);
       Serial.println("---------------------");
 
-      //Teste do botao1
+      //Teste do botao 1
       if (ponto.y > 25 & ponto.y < 70 & ponto.x > 255 & ponto.y < 305) {
         if (botao1 == 0) {
           tft.fillRoundRect(31, 6, 60, 48, 5, RED);
@@ -155,7 +153,7 @@ void loop() {
           botao1 = !botao1;
         }
       }
-       //Teste do botao2
+       //Teste do botao 2
       if (ponto.y > 100 & ponto.y < 155 & ponto.x > 255 & ponto.y < 305) {
         if (botao2 == 0) {
           tft.fillRoundRect(131, 6, 60, 48, 5, RED);
@@ -168,7 +166,7 @@ void loop() {
           botao2 = !botao2;
         }
       }
-      //Teste do botao3
+      //Teste do botao 3
       if (ponto.y > 185 & ponto.y < 240 & ponto.x > 255 & ponto.y < 305) {
         if (botao3 == 0) {
           tft.fillRoundRect(231, 6, 60, 48, 5, RED);
@@ -259,6 +257,32 @@ void loop() {
           botao9 = !botao9;
         }
       }
+      //Teste do botao 0
+      if (ponto.y > 70 & ponto.y < 125 & ponto.x > 0 & ponto.x < 55) {
+        if (botao0 == 0) {
+          tft.fillRoundRect(81, 186, 60, 48, 5, RED);
+          mostra_on(100, 190, 0);
+          botao0 = !botao0;
+        } 
+        else {
+          tft.fillRoundRect(81, 186, 60, 48, 5, BLACK);
+          mostra_off(100, 190, 0);
+          botao0 = !botao0;
+        }
+      }
+      //Teste do botao ok
+      if (ponto.y > 145 & ponto.y < 200 & ponto.x > 0 & ponto.x < 55) {
+        if (botao_ok == 0) {
+          tft.fillRoundRect(181, 186, 60, 48, 5, GREEN);
+          ok_on(190, 195, "OK");
+          botao_ok = !botao_ok;
+        } 
+        else {
+          tft.fillRoundRect(181, 186, 60, 48, 5, BLACK);
+          ok_off(190, 195, "OK");
+          botao_ok = !botao_ok;
+        }
+      }
     } 
   }
 }
@@ -275,6 +299,22 @@ void mostra_off(int x, int y, int z) {
   tft.setTextColor(YELLOW);
   tft.setCursor(x, y);
   tft.setTextSize(5);
+  tft.println(z);
+  delay(100);
+}
+
+void ok_on(int x, int y, String z) {
+  tft.setTextColor(YELLOW);
+  tft.setCursor(x, y);
+  tft.setTextSize(4);
+  tft.println(z);
+  delay(100);
+}
+
+void ok_off(int x, int y, String z) {
+  tft.setTextColor(YELLOW);
+  tft.setCursor(x, y);
+  tft.setTextSize(4);
   tft.println(z);
   delay(100);
 }
