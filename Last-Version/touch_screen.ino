@@ -13,14 +13,14 @@
 
 PP_TouchScreen ts = PP_TouchScreen(XP, YP, XM, YM, 100);
 
-#define BLACK 0x0000
-#define BLUE 0x001F
-#define RED 0xF800
-#define GREEN 0x07E0
-#define CYAN 0x07FF
-#define MAGENTA 0xF81F
-#define YELLOW 0xFFE0
-#define WHITE 0xFFFF
+#define BLACK           0x0000
+#define BLUE            0x001F
+#define RED             0xF800
+#define GREEN           0x07E0
+#define CYAN            0x07FF
+#define MAGENTA         0xF81F
+#define YELLOW          0xFFE0
+#define WHITE           0xFFFF
 
 //(LCD_CS, LCD_DS, LCD_WR, LCD_RD, LCD_RESET)
 PP_TFTLCD tft (A3, A2, A1, A0, A4);
@@ -38,89 +38,139 @@ bool botao8 = 0;
 bool botao9 = 0;
 bool botao_enter = 0;
 
-#define MINPRESSURE 10;
-#define MAXPRESSURE 1000;
+#define MINPRESSURE 10
+#define MAXPRESSURE 1000
 
 void setup(void) {
-   Serial.begin(9600);
-   //Serial.println("Sisadev Bus");
-   tft.reset();
-   delay(500);
-   uint16_t identifier = tft.readRegister(0x0);
-   /*Serial.println("Driver encontrado");
-   Serial.println(identifier, HEX);*/
-   
-   tft.initDisplay();
-   tft.fillScreen(BLACK);
-   tft.setRotation(3);
-   
-   //tft.drawRoundRect(5, 15, 312, 50, 5, WHITE);
-   tft.drawRoundRect(30, 5, 62, 50, 5, WHITE);
-   tft.setTextColor(YELLOW);
-   tft.setTextSize(5);
-   tft.setCursor(50, 10);
-   tft.println("1");
-   
-   tft.drawRoundRect(130, 5, 62, 50, 5, WHITE);
-   tft.setTextColor(YELLOW);
-   tft.setTextSize(5);
-   tft.setCursor(150, 10);
-   tft.println("2");
-   
-   tft.drawRoundRect(230, 5, 62, 50, 5, WHITE);
-   tft.setTextColor(YELLOW);
-   tft.setTextSize(5);
-   tft.setCursor(250, 10);
-   tft.println("3");
-   
-   tft.drawRoundRect(30, 65, 62, 50, 5, WHITE);
-   tft.setTextColor(YELLOW);
-   tft.setTextSize(5);
-   tft.setCursor(50, 70);
-   tft.println("4");
-   
-   tft.drawRoundRect(130, 65, 62, 50, 5, WHITE);
-   tft.setTextColor(YELLOW);
-   tft.setTextSize(5);
-   tft.setCursor(150, 70);
-   tft.println("5");
-   
-   tft.drawRoundRect(230, 65, 62, 50, 5, WHITE);
-   tft.setTextColor(YELLOW);
-   tft.setTextSize(5);
-   tft.setCursor(250, 70);
-   tft.println("6");
-   
-   tft.drawRoundRect(30, 125, 62, 50, 5, WHITE);
-   tft.setTextColor(YELLOW);
-   tft.setTextSize(5);
-   tft.setCursor(50, 130);
-   tft.println("7");
-   
-   tft.drawRoundRect(130, 125, 62, 50, 5, WHITE);
-   tft.setTextColor(YELLOW);
-   tft.setTextSize(5);
-   tft.setCursor(150, 130);
-   tft.println("8");
-   
-   tft.drawRoundRect(230, 125, 62, 50, 5, WHITE);
-   tft.setTextColor(YELLOW);
-   tft.setTextSize(5);
-   tft.setCursor(250, 130);
-   tft.println("9");
-   
-   tft.drawRoundRect(80, 185, 62, 50, 5, WHITE);
-   tft.setTextColor(YELLOW);
-   tft.setTextSize(5);
-   tft.setCursor(100, 190);
-   tft.println("0");
-   
-   tft.drawRoundRect(180, 185, 62, 50, 5, GREEN);
-   tft.setTextColor(GREEN);
-   tft.setTextSize(4);
-   tft.setCursor(190, 195);
-   tft.println("OK");
+  Serial.begin(9600);
+  Serial.println("Sisadev Bus");
+  tft.reset();
+  delay(500);
+  uint16_t identifier = tft.readRegister(0x0);
+  Serial.println("Driver encontrado");
+  Serial.println(identifier, HEX);
+
+  tft.initDisplay();
+  tft.fillScreen(BLACK);
+  tft.setRotation(3);
+
+  tft.drawRoundRect(30, 5, 62, 50, 5, WHITE);
+  tft.setTextColor(YELLOW);
+  tft.setTextSize(5);
+  tft.setCursor(50, 10);
+  tft.println("1");
+
+  tft.drawRoundRect(130, 5, 62, 50, 5, WHITE);
+  tft.setTextColor(YELLOW);
+  tft.setTextSize(5);
+  tft.setCursor(150, 10);
+  tft.println("2");
+
+  tft.drawRoundRect(230, 5, 62, 50, 5, WHITE);
+  tft.setTextColor(YELLOW);
+  tft.setTextSize(5);
+  tft.setCursor(250, 10);
+  tft.println("3");
+
+  tft.drawRoundRect(30, 65, 62, 50, 5, WHITE);
+  tft.setTextColor(YELLOW);
+  tft.setTextSize(5);
+  tft.setCursor(50, 70);
+  tft.println("4");
+
+  tft.drawRoundRect(130, 65, 62, 50, 5, WHITE);
+  tft.setTextColor(YELLOW);
+  tft.setTextSize(5);
+  tft.setCursor(150, 70);
+  tft.println("5");
+
+  tft.drawRoundRect(230, 65, 62, 50, 5, WHITE);
+  tft.setTextColor(YELLOW);
+  tft.setTextSize(5);
+  tft.setCursor(250, 70);
+  tft.println("6");
+
+  tft.drawRoundRect(30, 125, 62, 50, 5, WHITE);
+  tft.setTextColor(YELLOW);
+  tft.setTextSize(5);
+  tft.setCursor(50, 130);
+  tft.println("7");
+
+  tft.drawRoundRect(130, 125, 62, 50, 5, WHITE);
+  tft.setTextColor(YELLOW);
+  tft.setTextSize(5);
+  tft.setCursor(150, 130);
+  tft.println("8");
+
+  tft.drawRoundRect(230, 125, 62, 50, 5, WHITE);
+  tft.setTextColor(YELLOW);
+  tft.setTextSize(5);
+  tft.setCursor(250, 130);
+  tft.println("9");
+
+  tft.drawRoundRect(80, 185, 62, 50, 5, WHITE);
+  tft.setTextColor(YELLOW);
+  tft.setTextSize(5);
+  tft.setCursor(100, 190);
+  tft.println("0");
+
+  tft.drawRoundRect(180, 185, 62, 50, 5, GREEN);
+  tft.setTextColor(GREEN);
+  tft.setTextSize(4);
+  tft.setCursor(190, 195);
+  tft.println("OK");
 }
 
 void loop() {
+  Point ponto = ts.getPoint();
+  pinMode(XM, OUTPUT);
+  digitalWrite(XM, LOW);
+  pinMode(YP, OUTPUT);
+  digitalWrite(YP, HIGH);
+  pinMode(YM, OUTPUT);
+  digitalWrite(YM, LOW);
+  pinMode(XP, OUTPUT);
+  digitalWrite(XP, HIGH);
+
+  if ((ponto.z > MINPRESSURE) && (ponto.z < MAXPRESSURE)) {
+    ponto.x = tft.width() - (map(ponto.x, TS_MINX, TS_MAXX, tft.width(), 0));
+    ponto.y = tft.height() - (map(ponto.y, TS_MINY, TS_MAXY, tft.height(), 0));
+    if (ponto.y > 200) {
+      Serial.print("py: ");
+      Serial.println(ponto.y);
+      Serial.print("px: ");
+      Serial.println(ponto.x);
+
+      //Teste do botao1
+      if (ponto.x > 233 & ponto.x < 295) {
+        if (botao1 == 0) {
+          tft.fillRoundRect(31, 6, 60, 48, 5, YELLOW);
+          mostra_on(50, 10, 1);
+          botao1 = !botao1;
+        }
+      } 
+      else {
+        tft.fillRoundRect(31, 6, 60, 48, 5, BLACK);
+        mostra_off(50, 10, 1);
+        botao1 = !botao1;
+      }
+
+    } 
+  }
+}
+
+void mostra_on(int x, int y, int z) {
+  tft.setTextColor(BLACK);
+  tft.setCursor(x, y);
+  tft.setTextSize(5);
+  tft.println(z);
+  delay(100);
+}
+
+void mostra_off(int x, int y, int z) {
+  tft.setTextColor(YELLOW);
+  tft.setCursor(x, y);
+  tft.setTextSize(5);
+  tft.println(z);
+  delay(100);
 }
