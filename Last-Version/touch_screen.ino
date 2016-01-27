@@ -142,7 +142,7 @@ void loop() {
       Serial.println(ponto.x);
 
       //Teste do botao1
-      if (ponto.x > 233 & ponto.x < 295) {
+      if (ponto.x > 233 & ponto.x < 295 & ponto.y ) {
         if (botao1 == 0) {
           tft.fillRoundRect(31, 6, 60, 48, 5, YELLOW);
           mostra_on(50, 10, 1);
