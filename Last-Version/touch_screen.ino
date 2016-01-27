@@ -135,32 +135,136 @@ void loop() {
   if ((ponto.z > MINPRESSURE) && (ponto.z < MAXPRESSURE)) {
     ponto.x = tft.width() - (map(ponto.x, TS_MINX, TS_MAXX, tft.width(), 0));
     ponto.y = tft.height() - (map(ponto.y, TS_MINY, TS_MAXY, tft.height(), 0));
-    if (ponto.y > 200) {
+    if (ponto.y > 10) {
       Serial.print("py: ");
       Serial.println(ponto.y);
       Serial.print("px: ");
       Serial.println(ponto.x);
+      Serial.println("---------------------");
 
       //Teste do botao1
-      if (ponto.x > 233 & ponto.x < 295 & ponto.y ) {
+      if (ponto.y > 25 & ponto.y < 70 & ponto.x > 255 & ponto.y < 305) {
         if (botao1 == 0) {
-          tft.fillRoundRect(31, 6, 60, 48, 5, YELLOW);
+          tft.fillRoundRect(31, 6, 60, 48, 5, RED);
           mostra_on(50, 10, 1);
           botao1 = !botao1;
+        } 
+        else {
+          tft.fillRoundRect(31, 6, 60, 48, 5, BLACK);
+          mostra_off(50, 10, 1);
+          botao1 = !botao1;
         }
-      } 
-      else {
-        tft.fillRoundRect(31, 6, 60, 48, 5, BLACK);
-        mostra_off(50, 10, 1);
-        botao1 = !botao1;
       }
-
+       //Teste do botao2
+      if (ponto.y > 100 & ponto.y < 155 & ponto.x > 255 & ponto.y < 305) {
+        if (botao2 == 0) {
+          tft.fillRoundRect(131, 6, 60, 48, 5, RED);
+          mostra_on(150, 10, 2);
+          botao2 = !botao2;
+        } 
+        else {
+          tft.fillRoundRect(131, 6, 60, 48, 5, BLACK);
+          mostra_off(150, 10, 2);
+          botao2 = !botao2;
+        }
+      }
+      //Teste do botao3
+      if (ponto.y > 185 & ponto.y < 240 & ponto.x > 255 & ponto.y < 305) {
+        if (botao3 == 0) {
+          tft.fillRoundRect(231, 6, 60, 48, 5, RED);
+          mostra_on(250, 10, 3);
+          botao3 = !botao3;
+        } 
+        else {
+          tft.fillRoundRect(231, 6, 60, 48, 5, BLACK);
+          mostra_off(250, 10, 3);
+          botao3 = !botao3;
+        }
+      }
+      //Teste do botao 4
+      if (ponto.y > 25 & ponto.y < 70 & ponto.x > 162 & ponto.x < 224) {
+        if (botao4 == 0) {
+          tft.fillRoundRect(31, 66, 60, 48, 5, RED);
+          mostra_on(50, 70, 4);
+          botao4 = !botao4;
+        } 
+        else {
+          tft.fillRoundRect(31, 66, 60, 48, 5, BLACK);
+          mostra_off(50, 70, 4);
+          botao4 = !botao4;
+        }
+      }
+      //Teste do botao 5
+      if (ponto.y > 100 & ponto.y < 155 & ponto.x > 162 & ponto.x < 224) {
+        if (botao5 == 0) {
+          tft.fillRoundRect(131, 66, 60, 48, 5, RED);
+          mostra_on(150, 70, 5);
+          botao5 = !botao5;
+        } 
+        else {
+          tft.fillRoundRect(131, 66, 60, 48, 5, BLACK);
+          mostra_off(150, 70, 5);
+          botao5 = !botao5;
+        }
+      }
+      //Teste do botao 6
+      if (ponto.y > 175 & ponto.y < 310 & ponto.x > 162 & ponto.x < 224) {
+        if (botao6 == 0) {
+          tft.fillRoundRect(231, 66, 60, 48, 5, RED);
+          mostra_on(250, 70, 6);
+          botao6 = !botao6;
+        } 
+        else {
+          tft.fillRoundRect(231, 66, 60, 48, 5, BLACK);
+          mostra_off(250, 70, 6);
+          botao6 = !botao6;
+        }
+      }
+      //Teste do botao 7
+      if (ponto.y > 25 & ponto.y < 70 & ponto.x > 70 & ponto.x < 132) {
+        if (botao7 == 0) {
+          tft.fillRoundRect(31, 126, 60, 48, 5, RED);
+          mostra_on(50, 130, 7);
+          botao7 = !botao7;
+        } 
+        else {
+          tft.fillRoundRect(31, 126, 60, 48, 5, BLACK);
+          mostra_off(50, 130, 7);
+          botao7 = !botao7;
+        }
+      }
+      //Teste do botao 8
+      if (ponto.y > 100 & ponto.y < 155 & ponto.x > 70 & ponto.x < 132) {
+        if (botao8 == 0) {
+          tft.fillRoundRect(131, 126, 60, 48, 5, RED);
+          mostra_on(150, 130, 8);
+          botao8 = !botao8;
+        } 
+        else {
+          tft.fillRoundRect(131, 126, 60, 48, 5, BLACK);
+          mostra_off(150, 130, 8);
+          botao8 = !botao8;
+        }
+      }
+      //Teste do botao 9
+      if (ponto.y > 175 & ponto.y < 310 & ponto.x > 70 & ponto.x < 132) {
+        if (botao9 == 0) {
+          tft.fillRoundRect(231, 126, 60, 48, 5, RED);
+          mostra_on(250, 130, 9);
+          botao9 = !botao9;
+        } 
+        else {
+          tft.fillRoundRect(231, 126, 60, 48, 5, BLACK);
+          mostra_off(250, 130, 9);
+          botao9 = !botao9;
+        }
+      }
     } 
   }
 }
 
 void mostra_on(int x, int y, int z) {
-  tft.setTextColor(BLACK);
+  tft.setTextColor(YELLOW);
   tft.setCursor(x, y);
   tft.setTextSize(5);
   tft.println(z);
