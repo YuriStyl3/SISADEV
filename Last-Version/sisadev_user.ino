@@ -42,7 +42,7 @@ void setup() {
 void loop() {
   
   char tecla_press = teclado.getKey();
-  while (tecla_press) {
+  if (tecla_press) {
     if (tecla_press == '*') {
       int numero = (int)tecla_press;
       //Serial.println(numero);
