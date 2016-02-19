@@ -12,10 +12,9 @@ SFEMP3Shield MP3player;
 String onibus;
 String linha_onibus[1];
 
-RF24 radio(11,12);
+RF24 radio(9,10);
 
-const uint64_t pipe = 0xE14BC8F482LL;
-
+const uint64_t pipe = 0xE13CBAF433LL;
 const byte LINHAS = 4;
 const byte COLUNAS = 3;
 
@@ -27,13 +26,13 @@ char matriz_teclas[LINHAS][COLUNAS] =
   {'*','0','#'}
 };
 
-byte PinosLinhas[LINHAS] = {4, 5, 6, 7};
-byte PinosColunas[COLUNAS] = {8, 9, 10};
+byte PinosLinhas[LINHAS] = {8, 7, 6, 5};
+byte PinosColunas[COLUNAS] = {4, 3, 2};
 
 Keypad teclado = Keypad(makeKeymap(matriz_teclas), PinosLinhas, PinosColunas, LINHAS, COLUNAS);
 
 void setup() {
-  Serial.begin(57600);
+  Serial.begin(9600);
   /*Serial.println("Teclado 4x3");
   Serial.println("Aguardando o click do usuário...");
   Serial.println();*/     
@@ -64,7 +63,6 @@ void loop() {
       onibus += tecla_press;
       linha_onibus[0] = onibus; 
       Serial.println(onibus);
-      Serial.println();
       /*Serial.println(numero);*/
       //ativar_mp3(numero);
     }  
@@ -76,8 +74,12 @@ void ativar_transceiver(String onibus) {
   int linha[1];
   linha[0] = atoi(onibus.c_str());
   radio.begin();
+  radio.setChannel(100);
   radio.openWritingPipe(pipe);
   radio.write(linha, 1);
+  Serial.println(linha[0]);
+  Serial.println("--------------");
+  
 }
 
 //função para ativar o shield mp3
