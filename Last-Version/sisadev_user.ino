@@ -77,12 +77,13 @@ void loop() {
 }
 
 void ativar_transceiver(String onibus) {
-  int n_onibus = atoi(onibus.c_str());
-  uint8_t linha[1];
-  linha[0] = n_onibus;  
+  uint8_t bus = atoi(onibus.c_str()); 
+  uint8_t data[1] = {bus};
   Serial.println("Sending to nrf24_server");
-  nrf24.send(linha, sizeof(linha));
-  
+  nrf24.send(data, sizeof(data));
+  /*Serial.print("Enviado: ");
+  Serial.println(data[0]);
+  Serial.println("---------------------------");*/
   nrf24.waitPacketSent();
   
   uint8_t buf[RH_NRF24_MAX_MESSAGE_LEN];
