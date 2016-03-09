@@ -11,11 +11,13 @@ int botoes;
 int valor_recebido_RF;
 char recebido_RF_char[4];
 int onibus;
-  
+const int buzzer = 48;
+
 void setup() {
   Serial.begin(9600);   
   lcd.begin(16, 2); //Inicia o lcd shield
   digitalWrite(Backlight, HIGH);
+  pinMode(buzzer,OUTPUT);
 }  
   
 void loop() {
@@ -49,10 +51,7 @@ void verificar_receptor() {
     Serial.println(valor_recebido_RF);
     
     ativar_transmissor(valor_recebido_RF);
-    /*if (valor_recebido_RF == 0) {
-    //tone(buzzer, 1500); //Liga o buzzer se o valor recebido for 0 (o valor que o transmissor do usuário enviará)
-    Serial.println("Valor 0 recebido");  
-    }*/  
+     
     delay(5000);  
   }
   delay(1000);
@@ -162,7 +161,9 @@ void menu_list() {
 
 void ativar_transmissor(int valor_recebido) {
   if (valor_recebido == onibus) {
-    vw_rx_stop(); //O receptor para de receber dados
+    vw_rx_stop();
+    
+    ativar_buzzer();
     
     char *confirmacao = "1";
     
@@ -177,6 +178,12 @@ void ativar_transmissor(int valor_recebido) {
       delay(1000);
     }
   } 
+}
+
+void ativar_buzzer() {
+  tone(buzzer, 1500);
+  delay(2000);
+  noTone(buzzer);
 }
 
 void trata_botao() {
