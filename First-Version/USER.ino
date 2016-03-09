@@ -37,6 +37,11 @@ void setup() {
 }
 
 void loop() {
+   ativar_teclado();
+   verificar_receptor();
+}
+
+void ativar_teclado() {
   char tecla_press = teclado.getKey();
   if (tecla_press) {
     if (tecla_press == '*') {
@@ -62,11 +67,11 @@ void loop() {
       //ativar_mp3(numero);
     }  
   } 
-  delay(100);
-  verificar_receptor();
 }
 
 void ativar_transmissor(String onibus) {
+  vw_rx_stop();
+  
   const char *bus = onibus.c_str();
   //delay(5000); //Tempo para a player ser encerrada e o botão ser ativado
   vw_rx_stop(); //O receptor para de receber dados
@@ -76,12 +81,12 @@ void ativar_transmissor(String onibus) {
   vw_set_tx_pin(10); //Define o pino do transmissor
   vw_setup(1000);
   
-  for (int i = 0; i < 2; i++) {
+  for (int i = 0; i < 5; i++) {
    vw_send((uint8_t *)bus, strlen(bus));
     vw_wait_tx();
     Serial.print("Valor enviado: ");
     Serial.println(bus);
-    delay(100);
+    delay(1000);
   }
   //verificar_receptor();
 }
@@ -103,11 +108,16 @@ void verificar_receptor() {
     recebido_RF_char[buflen] = '\0';
     valor_recebido_RF = atoi(recebido_RF_char); //Converte o valor recebido para integer
     
+    if (valor_recebido_RF == 1) {
+      vw_rx_stop();
+    }
+    
     Serial.print("Recebido: ");
     Serial.println(valor_recebido_RF);
+    
   }
-  Serial.println("Aguardando dados...");
-  delay(1000); 
+  //Serial.println("Aguardando dados...");
+  delay(100); 
 }  
     
     /*if (valor_recebido_RF == 1) {
@@ -136,27 +146,3 @@ void ativar_mp3() {
   MP3player.playTrack(1); /*Seleciona o toque mp3, que aqui, no caso, será 1*/
 }
 
-/*void ativar_botao() {
-  delay(5000); //Tempo para a player ser encerrada e o botão ser ativado
-  vw_rx_stop(); //O receptor para de receber dados
-  char Valor_CharMsg[4]; //Variável que possui o valor a ser transmitido
-  
-  pinMode(pino_botao, INPUT);
-  vw_set_tx_pin(10); //Define o pino do transmissor
-  vw_setup(1000);
-  
-  valor_botao = digitalRead(pino_botao);
-  
-  if(valor_botao == LOW){
-    /*Se o botão for pressionado, ele enviará o valor 0 pelo transmissor*/
-    /*itoa(valor_botao, Valor_CharMsg, 10);
-    vw_send((uint8_t *)Valor_CharMsg, strlen(Valor_CharMsg));
-    vw_wait_tx();
-    Serial.println("Valor enviado: ");
-    Serial.println(Valor_CharMsg);
-  }
-
-  /*Quando toda a transmissão de dados terminar,
-  o circuito passa a receber dados novamente*/
-  /*vw_rx_start(); 
-}*/
