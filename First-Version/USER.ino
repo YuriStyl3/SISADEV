@@ -13,7 +13,7 @@ int valor_recebido_RF;
 char recebido_RF_char[4];
 
 String onibus;
-String linha_onibus[1];
+//String linha_onibus[1];
 
 SdFat sd; //variável para o cartão de memória
 SFEMP3Shield MP3player; //variável para o player
@@ -37,7 +37,8 @@ Keypad teclado = Keypad(makeKeymap(matriz_teclas), PinosLinhas, PinosColunas, LI
 
 void setup() {
   Serial.begin(9600);
-  ativar_mp3(98);
+  //ativar_mp3(10);
+  ativar_mp3(99);
   //pinMode(ledReceptor, OUTPUT);   
 }
 
@@ -54,27 +55,27 @@ void ativar_teclado() {
   
   if (tecla_press) {
     if (tecla_press == '*') {
-      ativar_mp3(numero);
       onibus = "";
       Serial.println(numero);
+      ativar_mp3(numero);
 
     } else if (tecla_press == '#') {
-      ativar_mp3(numero);
       Serial.println("Enviado");
+      ativar_mp3(numero);
       ativar_transmissor(onibus);
       onibus = "";
       Serial.println(numero);
       
     } else {
       //int numero_bus = (int)tecla_press - 48;   
-      ativar_mp3(numero);
       Serial.print("Tecla pressionada: ");
       Serial.println(tecla_press);
       onibus += tecla_press;
       Serial.print("Linha: ");
       Serial.println(onibus);
-      linha_onibus[0] = onibus;
+      //linha_onibus[0] = onibus;
       Serial.println(numero); 
+      ativar_mp3(numero);
     }  
   } 
 }
@@ -93,7 +94,7 @@ void ativar_transmissor(String onibus) {
     vw_wait_tx();
     Serial.print("Valor enviado: ");
     Serial.println(bus);
-    delay(1000);
+    delay(1500);
   }
   //verificar_receptor();
 }
@@ -117,7 +118,7 @@ void verificar_receptor() {
     valor_recebido_RF = atoi(recebido_RF_char); //Converte o valor recebido para integer
     
     if (valor_recebido_RF == 1) {
-      ativar_mp3(999);
+      ativar_mp3(99);
       vw_rx_stop();    
     }
     
@@ -141,4 +142,3 @@ void ativar_mp3(int track) {
   MP3player.playTrack(track);
   delay(2000);
 }
-
