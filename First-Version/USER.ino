@@ -6,7 +6,7 @@
 #include <SFEMP3Shield.h>
 
 //int ledReceptor = 5; //Esse led acenderá sempre que o receptor receber dados
-const int pino_botao = A0;
+//const int pino_botao = A0;
 
 // Variáveis pra tratar os valores recebidos
 int valor_recebido_RF;
@@ -37,8 +37,7 @@ Keypad teclado = Keypad(makeKeymap(matriz_teclas), PinosLinhas, PinosColunas, LI
 
 void setup() {
   Serial.begin(9600);
-  //ativar_mp3(10);
-  ativar_mp3(99);
+  ativar_mp3(10);
   //pinMode(ledReceptor, OUTPUT);   
 }
 
@@ -51,7 +50,7 @@ void loop() {
 // Função que trata os botões do teclado
 void ativar_teclado() {
   char tecla_press = teclado.getKey();
-  int numero = (int)tecla_press - 48;
+  int numero = (int)tecla_press /*- 48*/;
   
   if (tecla_press) {
     if (tecla_press == '*') {
