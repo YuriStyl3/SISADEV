@@ -6,33 +6,36 @@
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
 int menu_cont; //Variável para contagem dos menus
-int sel=0; //Variável para verificar estado do botão selecionar
-int botoes;
+int sel= 0; //Variável para verificar estado do botão selecionar
+int botoes; 
+//Variáveis para tratar o valor recebido
 int valor_recebido_RF;
 char recebido_RF_char[4];
+
 int onibus;
 const int buzzer = 48;
 
 void setup() {
   Serial.begin(9600);   
-  lcd.begin(16, 2); //Inicia o lcd shield
+  lcd.begin(16, 2); 
   digitalWrite(Backlight, HIGH);
   pinMode(buzzer,OUTPUT);
 }  
   
 void loop() {
-  verificar_receptor();
+  verificar_receptor(); //Verifica o receptor constantemente
   lcd.setCursor(4,0);  
   lcd.print("SISADEV");
   botoes = analogRead (0); //Leitura do valor da porta analógica A0
-  atualiza_menu();
+  atualiza_menu(); 
   verificar_receptor();
 }
 
+// Função para tratar o recebmento de dados
 void verificar_receptor() {
-  vw_set_rx_pin(50); //Pino ligado ao pino DATA do receptor RF
-  vw_setup(1000); //Velocidade de comunicacao (bits por segundo)
-  vw_rx_start();//Inicia a recepcao
+  vw_set_rx_pin(50); 
+  vw_setup(1000); // Velocidade de comunicacao (bits por segundo)
+  vw_rx_start();
   Serial.println("Recepcao modulo RF - Aguardando...");
   
   uint8_t buf[VW_MAX_MESSAGE_LEN]; 
@@ -45,18 +48,19 @@ void verificar_receptor() {
     }
     
     recebido_RF_char[buflen] = '\0';
-    valor_recebido_RF = atoi(recebido_RF_char); //Converte o valor recebido para integer
+    valor_recebido_RF = atoi(recebido_RF_char); // Converte o valor recebido para integer
     
     Serial.print("Recebido: ");
     Serial.println(valor_recebido_RF);
-    
-    ativar_transmissor(valor_recebido_RF);
+  
+    ativar_transmissor(valor_recebido_RF); // Ativa o transmissor para envio de dados
      
     delay(5000);  
   }
   delay(1000);
 }
 
+// Função para mudança de linhas de ônibus no menu
 void atualiza_menu() {
   lcd.setCursor(8,1);
 
@@ -74,6 +78,7 @@ void atualiza_menu() {
   menu_list();
 }
 
+// Lista de opções do menu
 void menu_list() {
 
   if(menu_cont == 0) {
@@ -159,6 +164,7 @@ void menu_list() {
   }
 }
 
+// Função para tratar o envio de dados
 void ativar_transmissor(int valor_recebido) {
   if (valor_recebido == onibus) {
     vw_rx_stop();
@@ -167,7 +173,7 @@ void ativar_transmissor(int valor_recebido) {
     
     char *confirmacao = "1";
     
-    vw_set_tx_pin(52); //Define o pino do transmissor
+    vw_set_tx_pin(52); 
     vw_setup(1000);
  
     for (int i = 0; i < 10; i++){
@@ -180,6 +186,7 @@ void ativar_transmissor(int valor_recebido) {
   } 
 }
 
+// Função para ativar o buzzer no onibus
 void ativar_buzzer() {
   tone(buzzer, 1500);
   delay(2000);
