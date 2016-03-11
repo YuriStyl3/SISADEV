@@ -5,16 +5,20 @@
 #include <SdFatUtil.h>
 #include <SFEMP3Shield.h>
 
-int ledReceptor = 5; //Esse led acenderá sempre que o receptor receber dados
+//int ledReceptor = 5; //Esse led acenderá sempre que o receptor receber dados
 const int pino_botao = A0;
+
+// Variáveis pra tratar os valores recebidos
 int valor_recebido_RF;
 char recebido_RF_char[4];
+
 String onibus;
 String linha_onibus[1];
 
 SdFat sd; //variável para o cartão de memória
 SFEMP3Shield MP3player; //variável para o player
 
+// Definição do teclado no arduino
 const byte LINHAS = 4;
 const byte COLUNAS = 3;
 
@@ -33,14 +37,16 @@ Keypad teclado = Keypad(makeKeymap(matriz_teclas), PinosLinhas, PinosColunas, LI
 
 void setup() {
   Serial.begin(9600);
-  pinMode(ledReceptor, OUTPUT);   
+  //pinMode(ledReceptor, OUTPUT);   
 }
 
 void loop() {
+  // Ativa o teclado e verificar os valores recebidos constantemente
    ativar_teclado();
    verificar_receptor();
 }
 
+// Função que trata os botões do teclado
 void ativar_teclado() {
   char tecla_press = teclado.getKey();
   if (tecla_press) {
@@ -69,16 +75,13 @@ void ativar_teclado() {
   } 
 }
 
+// Função para enviar os dados digitados no teclado
 void ativar_transmissor(String onibus) {
   vw_rx_stop();
   
   const char *bus = onibus.c_str();
-  //delay(5000); //Tempo para a player ser encerrada e o botão ser ativado
-  vw_rx_stop(); //O receptor para de receber dados
   
-  //char *Valor_CharMsg = "666";
-  
-  vw_set_tx_pin(10); //Define o pino do transmissor
+  vw_set_tx_pin(10); 
   vw_setup(1000);
   
   for (int i = 0; i < 5; i++) {
@@ -91,6 +94,7 @@ void ativar_transmissor(String onibus) {
   //verificar_receptor();
 }
 
+// Função para verificar a recepção de dados
 void verificar_receptor() {
   vw_set_rx_pin(9);
   vw_rx_start();//Pino ligado ao pino DATA do receptor RF
@@ -119,22 +123,8 @@ void verificar_receptor() {
   //Serial.println("Aguardando dados...");
   delay(100); 
 }  
-    
-    /*if (valor_recebido_RF == 1) {
-      /*Se o valor recebido for 1, o led acenderá, 
-      o player será ativado e o botão poderá ser clicado durante 5 segundos*/
-      /*(digitalWrite(ledReceptor, HIGH); 
-      ativar_mp3();
-      ativar_botao();
-      
-      delay(5000);
-    }*/
-    /*if (valor_recebido_RF == 0) {
-      digitalWrite(ledReceptor, LOW);
-    }*/
-  /*}
-}*/
 
+// Função para ativar o shield mp3    
 void ativar_mp3() {
   //Inicializa o cartão de memória
   if(!sd.begin(SD_SEL, SPI_HALF_SPEED)) sd.initErrorHalt();
