@@ -37,6 +37,7 @@ Keypad teclado = Keypad(makeKeymap(matriz_teclas), PinosLinhas, PinosColunas, LI
 
 void setup() {
   Serial.begin(9600);
+  ativar_mp3(98);
   //pinMode(ledReceptor, OUTPUT);   
 }
 
@@ -49,28 +50,31 @@ void loop() {
 // Função que trata os botões do teclado
 void ativar_teclado() {
   char tecla_press = teclado.getKey();
+  int numero = (int)tecla_press - 48;
+  
   if (tecla_press) {
     if (tecla_press == '*') {
-      int numero = (int)tecla_press;
+      ativar_mp3(numero);
       onibus = "";
-      //ativar_mp3(numero);
+      Serial.println(numero);
 
     } else if (tecla_press == '#') {
-      int numero = (int)tecla_press;
+      ativar_mp3(numero);
       Serial.println("Enviado");
       ativar_transmissor(onibus);
       onibus = "";
-      //ativar_mp3(numero);
+      Serial.println(numero);
       
     } else {
-      int numero = (int)tecla_press - 48;   
+      //int numero_bus = (int)tecla_press - 48;   
+      ativar_mp3(numero);
       Serial.print("Tecla pressionada: ");
       Serial.println(tecla_press);
       onibus += tecla_press;
       Serial.print("Linha: ");
       Serial.println(onibus);
-      linha_onibus[0] = onibus; 
-      //ativar_mp3(numero);
+      linha_onibus[0] = onibus;
+      Serial.println(numero); 
     }  
   } 
 }
@@ -113,7 +117,8 @@ void verificar_receptor() {
     valor_recebido_RF = atoi(recebido_RF_char); //Converte o valor recebido para integer
     
     if (valor_recebido_RF == 1) {
-      vw_rx_stop();
+      ativar_mp3(999);
+      vw_rx_stop();    
     }
     
     Serial.print("Recebido: ");
@@ -125,7 +130,7 @@ void verificar_receptor() {
 }  
 
 // Função para ativar o shield mp3    
-void ativar_mp3() {
+void ativar_mp3(int track) {
   //Inicializa o cartão de memória
   if(!sd.begin(SD_SEL, SPI_HALF_SPEED)) sd.initErrorHalt();
   if(!sd.chdir("/")) sd.errorHalt("sd.chdir");
@@ -133,6 +138,7 @@ void ativar_mp3() {
   MP3player.begin(); //Inicializa o mp3 shield
   MP3player.setBitRate(192);
   MP3player.setVolume(10,10); //Ajusta o volume
-  MP3player.playTrack(1); /*Seleciona o toque mp3, que aqui, no caso, será 1*/
+  MP3player.playTrack(track);
+  delay(2000);
 }
 
