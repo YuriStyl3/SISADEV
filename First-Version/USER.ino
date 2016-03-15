@@ -93,7 +93,7 @@ void ativar_transmissor(String onibus) {
     vw_wait_tx();
     Serial.print("Valor enviado: ");
     Serial.println(bus);
-    delay(1500);
+    delay(500);
   }
   //verificar_receptor();
 }
@@ -139,5 +139,5 @@ void ativar_mp3(int track) {
   MP3player.setBitRate(192);
   MP3player.setVolume(10,10); //Ajusta o volume
   MP3player.playTrack(track);
-  delay(2000);
+  delay(1500);
 }
