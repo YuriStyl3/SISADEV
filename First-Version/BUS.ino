@@ -28,7 +28,7 @@ void loop() {
   lcd.print("SISADEV");
   botoes = analogRead (0); //Leitura do valor da porta analógica A0
   atualiza_menu(); 
-  verificar_receptor();
+  //verificar_receptor();
 }
 
 // Função para tratar o recebmento de dados
