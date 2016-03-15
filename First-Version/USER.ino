@@ -85,7 +85,7 @@ void ativar_transmissor(String onibus) {
   
   const char *bus = onibus.c_str();
   
-  vw_set_tx_pin(10); 
+  vw_set_tx_pin(9); 
   vw_setup(1000);
   
   for (int i = 0; i < 5; i++) {
@@ -100,7 +100,7 @@ void ativar_transmissor(String onibus) {
 
 // Função para verificar a recepção de dados
 void verificar_receptor() {
-  vw_set_rx_pin(9);
+  vw_set_rx_pin(10);
   vw_rx_start();//Pino ligado ao pino DATA do receptor RF
   vw_setup(1000); //Velocidade de comunicacao (bits por segundo)
   
