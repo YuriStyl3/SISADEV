@@ -55,7 +55,7 @@ void ativar_teclado() {
   if (tecla_press) {
     if (tecla_press == '*') {
       onibus = "";
-      Serial.println(numero);
+      //Serial.println(numero);
       ativar_mp3(numero);
 
     } else if (tecla_press == '#') {
@@ -63,7 +63,7 @@ void ativar_teclado() {
       ativar_mp3(numero);
       ativar_transmissor(onibus);
       onibus = "";
-      Serial.println(numero);
+      //Serial.println(numero);
       
     } else {
       //int numero_bus = (int)tecla_press - 48;   
@@ -73,7 +73,7 @@ void ativar_teclado() {
       Serial.print("Linha: ");
       Serial.println(onibus);
       //linha_onibus[0] = onibus;
-      Serial.println(numero); 
+      //Serial.println(numero); 
       ativar_mp3(numero);
     }  
   } 
